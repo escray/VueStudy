@@ -1,0 +1,20 @@
+<html>
+  <body>
+    <div id="app">
+      <h2>{{title}}</h2>
+      <input type="text" v-model="title">
+    </div>
+  </body>
+  <script src="https://unpkg.com/vue@next"></script>
+  <script>
+    const App = {
+      data() {
+        return {
+          title: ""
+        }
+      }
+    }
+    Vue.createApp(App).mount("#app")
+  </script>
+
+</html>

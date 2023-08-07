@@ -1,0 +1,13 @@
+<html>
+  <body>
+    <h2 id="app"></h2>
+    <input type="text" id="todo-input">
+  </body>
+  <script src="jquery-3.7.0.min.js"></script>
+  <script>
+    $('#todo-input').on('input', function(){
+      let val = $(this).val()
+      $('#app').html(val)
+    })
+  </script>
+</html>

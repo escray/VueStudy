@@ -1,0 +1,23 @@
+<html>
+  <body>
+    <div id="app">
+      <h2>{{title}}</h2>
+      <input type="text" v-model="title">
+      <ul>
+        <li v-for="todo in todos">{{todo}}</li>
+      </ul>
+    </div>
+    <script src="3.2.36_dist_vue.global.js"></script>
+    <script>
+      const App = {
+        data() {
+          return {
+            title: "",
+            todos: ['eat', 'sleep']
+          }
+        },
+      }
+      Vue.createApp(App).mount('#app')
+    </script>
+  </body>
+</html>
