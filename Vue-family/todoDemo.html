@@ -2,27 +2,95 @@
   <body>
     <div id="app">
       <input type="text" v-model="title" @keydown.enter="addTodo">
-      <ul>
-        <li v-for="todo in todos">{{todo}}</li>
+      <button v-if="active<all" @click="clear">CLEAR</button>
+      <ul v-if="todos.length">
+        <li v-for="todo in todos">
+          <input type="checkbox" v-model="todo.done">
+          <span :class="{done:todo.done}">{{todo.title}}</span>
+        </li>
       </ul>
+      <div v-else>
+        no data
+      </div>
+      <!-- {{todos.filter(v=>!v.done).length}}
+      /
+      {{todos.length}} -->
+      <br />
+      all <input type="checkbox" v-model="allDone">
+      {{active}} / {{all}}
     </div>
+
     <script src="3.2.36_dist_vue.global.js"></script>
     <script>
       const App = {
         data() {
           return {
             title: "",
-            todos: ['eat', 'sleep']
+            todos: [
+              {title:'eat', done:false},
+              {title:'sleep', done:true}
+            ]
           }
         },
         methods: {
           addTodo() {
-            this.todos.push(this.title)
+            this.todos.push({title:this.title, done:false})
             this.title=""
+          },
+          clear() {
+            this.todos = this.todos.filter(v=>!v.done)
           }
         },
+        computed: {
+          active() {
+            return this.todos.filter(v => !v.done).length
+          },
+          all() {
+            return this.todos.length
+          },
+          allDone: {
+            get: function() {
+              return this.active === 0
+            },
+            set: function(val) {
+              this.todos.forEach(todo=>{
+                todo.done = val
+              });
+            }
+          }
+        },
+        watch: {
+          todos: {
+            handler(newVal, oldVal) {
+              console.info("todos->change")
+              localStorage.setItem("todos", JSON.stringify(this.todos))
+            },
+            deep: true
+          }
+        },
+        mounted() {
+          var todos = localStorage.getItem("todos");
+          if (todos) {
+            this.todos = JSON.parse(todos);
+          }
+        },
+        onUnmounted(){
+          localStorage.setItem("todos", JSON.stringify(this.todos))
+        },
       }
+
       Vue.createApp(App).mount('#app')
+
     </script>
+
+    <style>
+      .done{
+        color:gray;
+        text-decoration: line-through;
+      }
+    </style>
+    <div>
+
+    </div>
   </body>
 </html>
