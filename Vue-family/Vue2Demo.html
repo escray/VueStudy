@@ -1,0 +1,43 @@
+<html>
+  <body>
+    <div id="app">
+      <h1 @click="add">{{count}} * 2 = {{double}}</h1>
+    </div>
+    <div id="app1"></div>
+    <div id="app2"></div>
+  </body>
+  <script src="3.2.36_dist_vue.global.js"></script>
+  <script>
+    let App = {
+      data() {
+        return {
+          count:1
+        }
+      },
+      methods:{
+        add(){
+          this.count++
+        }
+      },
+      computed:{
+        double(){
+          return this.count*2
+        }
+      }
+    }
+    Vue.createApp(App).mount('#app')
+  </script>
+  <script>
+    Vue.component('el-counter', {
+      data(){
+        return {count: 1}
+      },
+      template: '<button @click="count++">Clicked {{count}} times.</button>'
+    })
+    let VueRouter = require('vue-router')
+    Vue.use(VueRouter)
+
+    new Vue({el:"#app1"})
+    new Vue({el:"#app2"})
+  </script>
+</html>

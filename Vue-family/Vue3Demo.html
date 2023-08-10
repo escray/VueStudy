@@ -1,0 +1,25 @@
+<html>
+  <body>
+    <div id="app">
+      <h1 @click="add">{{state.count}} * 2 = {{double}}</h1>
+    </div>
+    <script src="3.2.36_dist_vue.global.js"></script>
+    <script>
+      const {reactive, computed}  = Vue
+      let App = {
+        setup(){
+          const state = reactive({
+            count:1
+          })
+          function add(){
+            state.count++
+          }
+          const double = computed(()=>state.count*2)
+          return {state, add, double}
+        }
+      }
+      Vue.createApp(App).mount('#app')
+    </script>
+
+  </body>
+</html>
