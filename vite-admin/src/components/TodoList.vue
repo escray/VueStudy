@@ -22,7 +22,7 @@
 </template>
 
 <script setup>
-import { ref, computed, reactive } from "vue";
+import { ref, watchEffect, computed, reactive } from "vue";
 
 import { useMouse } from '../utils/mouse'
 
@@ -76,11 +76,15 @@ function add() {
   color.value = Math.random() > 0.5 ? "blue" : "red";
 }
 
-
-
 function useTodos() {
   let title = ref("");
-  let todos = ref([{ title: "study Vue", done: false }]);
+  // let todos = ref([{ title: "study Vue", done: false }]);
+  let todos = ref(JSON.parse(localStorage.getItem('todos') || '[{ title: "study Vue", done: false }]'))
+  watchEffect(() => {
+    localStorage.setItem('todos', JSON.stringify(todos.value))
+  })
+
+
 
   function addTodo() {
     todos.value.push({
@@ -114,6 +118,27 @@ function useTodos() {
 }
 
 let { title, todos, addTodo, clear, active, all, allDone } = useTodos();
+
+let cnt = 1;
+let double = cnt * 2;
+console.log(double);
+cnt = 2;
+console.log(double);
+
+let getDouble = n => n * 2;
+let dbl = getDouble(cnt)
+console.log(dbl)
+
+cnt = 3;
+dbl = getDouble(cnt)
+console.log(dbl)
+
+
+
+// delete obj.cnt
+// console.log(double)
+
+
 
 </script>
 
