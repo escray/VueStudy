@@ -22,7 +22,9 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, reactive } from "vue";
+
+import { useMouse } from '../utils/mouse'
 
 // let title = ref("");
 // let todos = ref([
@@ -64,9 +66,14 @@ import { ref, computed } from "vue";
 //   },
 // });
 
+let { x, y } = useMouse();
+
 let count = ref(1);
+let color = ref('red')
+
 function add() {
   count.value++
+  color.value = Math.random() > 0.5 ? "blue" : "red";
 }
 
 
@@ -113,5 +120,11 @@ let { title, todos, addTodo, clear, active, all, allDone } = useTodos();
 <style>
   h3 {
     color:chocolate;
+  }
+</style>
+
+<style scoped>
+  h3 {
+    color:v-bind(color);
   }
 </style>
