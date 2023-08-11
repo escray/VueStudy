@@ -79,12 +79,19 @@ function add() {
 function useTodos() {
   let title = ref("");
   // let todos = ref([{ title: "study Vue", done: false }]);
-  let todos = ref(JSON.parse(localStorage.getItem('todos') || '[{ title: "study Vue", done: false }]'))
+  // let todos = ref(JSON.parse(localStorage.getItem('todos') || '[{ title: "study Vue", done: false }]'))
+  let todos = useStorage('todos', [])
   watchEffect(() => {
     localStorage.setItem('todos', JSON.stringify(todos.value))
   })
 
-
+  function useStorage(name, value=[]) {
+    let data = ref(JSON.parse(localStorage.getItem(name) || value))
+    watchEffect(() => {
+      localStorage.setItem(name, JSON.stringify(data.value))
+    })
+    return data
+  }
 
   function addTodo() {
     todos.value.push({
