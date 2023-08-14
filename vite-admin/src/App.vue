@@ -12,6 +12,7 @@ import HelloWorld from './components/HelloWorld.vue'
     </a>
     <div>
       <router-link to="/">Home Page</router-link> |
+      <router-link to="/rate">Rate</router-link> |
       <router-link to="/about">About</router-link>
     </div>
     <router-view></router-view>
