@@ -13,18 +13,28 @@ import HelloWorld from './components/HelloWorld.vue'
     <div>
       <router-link to="/">Home Page</router-link> |
       <router-link to="/rate">Rate</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view></router-view>
-  </div>
-  <!-- <HelloWorld msg="Vite + Vue start a new world, why don't need to refresh browser" /> -->
-    <div class="box" :style="{ width: width + 'px' }"></div>
-    <button @click="change">click</button>
-          <div class="box1"></div>
+          <router-link to="/todolist">Todo</router-link> |
+          <router-link to="/about">About</router-link>
+          </div>
+          <router-view></router-view>
+        </div>
+        <!-- <HelloWorld msg="Vite + Vue start a new world, why don't need to refresh browser" /> -->
+          <div class="box" :style="{ width: width + 'px' }"></div>
+          <button @click="change">click</button>
+                <div class="box1"></div>
+                    <button @click="toggle">click</button>
+          <transition name="fade">
+            <h1 v-if="showTitle">Hello Vue 3</h1>
+        </transition>
 </template>
 
 <script setup>
 import { ref } from 'vue'
+
+let showTitle = ref(true)
+function toggle() {
+  showTitle.value = !showTitle.value
+}
 
 let width = ref(100)
 function change() {
@@ -44,6 +54,14 @@ function change() {
 }
 .logo.vue:hover {
   filter: drop-shadow(0 0 2em #42b883aa);
+}
+
+.fade-enter-active,.fade-leave-active {
+  transition: opacity 0.5s linear;
+}
+
+.fade-enter-from,.fade-leave-to {
+  opacity: 0;
 }
 
 .box{
