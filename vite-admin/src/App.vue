@@ -18,7 +18,18 @@ import HelloWorld from './components/HelloWorld.vue'
     <router-view></router-view>
   </div>
   <!-- <HelloWorld msg="Vite + Vue start a new world, why don't need to refresh browser" /> -->
+    <div class="box" :style="{ width: width + 'px' }"></div>
+    <button @click="change">click</button>
 </template>
+
+<script setup>
+import { ref } from 'vue'
+
+let width = ref(100)
+function change() {
+  width.value += 100
+}
+</script>
 
 <style scoped>
 .logo {
@@ -32,5 +43,10 @@ import HelloWorld from './components/HelloWorld.vue'
 }
 .logo.vue:hover {
   filter: drop-shadow(0 0 2em #42b883aa);
+}
+
+.box{
+  background: red;
+  height:100px;
 }
 </style>
