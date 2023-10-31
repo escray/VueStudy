@@ -20,6 +20,7 @@ import HelloWorld from './components/HelloWorld.vue'
   <!-- <HelloWorld msg="Vite + Vue start a new world, why don't need to refresh browser" /> -->
     <div class="box" :style="{ width: width + 'px' }"></div>
     <button @click="change">click</button>
+          <div class="box1"></div>
 </template>
 
 <script setup>
@@ -46,7 +47,23 @@ function change() {
 }
 
 .box{
-  background: red;
-  height:100px;
+  background: #d88986;
+  height:30px;
+  /* transition time is 1s */
+  transition: width 1s linear;
+}
+
+.box1{
+  width: 30px;
+  height: 30px;
+  position: relative;
+  background: #d88986;
+  animation: move 2s linear infinite;
+}
+
+@keyframes move {
+  0% {left: 0px}
+  50% {left: 200px}
+  100% {left: 0}
 }
 </style>
