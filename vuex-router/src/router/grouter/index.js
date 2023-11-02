@@ -39,3 +39,5 @@ class Router{
     app.component("router-view", RouterView)
   }
 }
+
+export {createRouter, createWebHashHistory, useRouter}
