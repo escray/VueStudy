@@ -6,6 +6,7 @@ import {
 import Home from '../pages/home.vue'
 import About from '../pages/about.vue'
 import Rate from '../pages/rate.vue'
+import TodoList from '../pages/todolist.vue'
 
 const routes = [
   {
@@ -22,6 +23,11 @@ const routes = [
     path: '/rate',
     name: 'Rate',
     component: Rate
+  },
+  {
+    path: '/todolist',
+    name: 'TodoList',
+    component: TodoList
   }
 ]
 
