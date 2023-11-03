@@ -15,11 +15,13 @@
       <span> {{ active }} / {{ all }}</span>
     </div>
   </div>
-  <div class="info-wrapper" v-if="showModal">
-    <div class="info">
-      Bro, You input nothing!
+  <Transition name="modal">
+    <div class="info-wrapper" v-if="showModal">
+      <div class="info">
+        Bro, You input nothing!
+      </div>
     </div>
-  </div>
+  </Transition>
 </template>
 
 <script setup>
