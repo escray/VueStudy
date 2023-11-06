@@ -13,10 +13,14 @@ import HelloWorld from './components/HelloWorld.vue'
         <p>
           <router-link to="/">Home</router-link> |
           <router-link to="/counter">Counter</router-link> |
-            <router-link to="/todolist">TodoList</router-link> |
+          <router-link to="/todolist">TodoList</router-link> |
           <router-link to="/about">About</router-link>
         </p>
-        <router-view></router-view>
+        <router-view v-slot="{ Component }">
+          <transition name="route" mode="out-in">
+            <component :is="Component"></component>
+          </transition>
+        </router-view>
     </div>
 
 <!-- <HelloWorld msg="Vite + Vue" /> -->
