@@ -10,22 +10,8 @@ import HelloWorld from './components/HelloWorld.vue'
     <a href="https://vuejs.org/" target="_blank">
       <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
     </a>
-        <p>
-          <router-link to="/">Home</router-link> |
-          <router-link to="/counter">Counter</router-link> |
-          <router-link to="/todolist">TodoList</router-link> |
-          <router-link to="/about">About</router-link>
-        </p>
-        <router-view v-slot="{ Component }">
-          <transition name="route" mode="out-in">
-            <component :is="Component"></component>
-          </transition>
-        </router-view>
-    </div>
-
-<!-- <HelloWorld msg="Vite + Vue" /> -->
-
-
+  </div>
+  <HelloWorld msg="Vite + Vue" />
 </template>
 
 <style scoped>
