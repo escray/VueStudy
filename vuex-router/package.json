@@ -9,12 +9,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "element3": "^0.0.40",
     "vue": "^3.3.4",
     "vue-router": "^4.0.13",
     "vuex": "^4.0.2"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.2.3",
+    "@vitejs/plugin-vue-jsx": "^3.0.2",
     "vite": "^4.5.0"
   }
 }
