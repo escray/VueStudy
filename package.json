@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "axios": "^1.6.1",
+    "element3": "^0.0.40",
+    "sass": "^1.69.5"
+  },
+  "devDependencies": {
+    "nprogress": "^0.2.0"
+  }
+}

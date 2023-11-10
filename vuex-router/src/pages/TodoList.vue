@@ -82,7 +82,7 @@ let todos = ref([
 let showModal = ref(false)
 
 function addTodo() {
-
+  debugger
   if (!title.value) {
     showModal.value = true
     setTimeout(() => {
