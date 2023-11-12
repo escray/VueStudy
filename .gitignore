@@ -134,6 +134,10 @@ dist
 
 # example code
 /geektime-vue-course
+<<<<<<< HEAD
 /Vite-Course
 /element3-admin-template
 /ailemente
+=======
+/element3-admin-template
+>>>>>>> 0af6d986aa6730ae5625076e001a4e78ac25a475
