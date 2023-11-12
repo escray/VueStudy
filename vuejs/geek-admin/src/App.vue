@@ -1,5 +1,6 @@
 <script setup>
 import HelloWorld from './components/HelloWorld.vue'
+import eCharts from './components/eCharts.vue'
 </script>
 
 <template>
@@ -12,6 +13,8 @@ import HelloWorld from './components/HelloWorld.vue'
     </a>
   </div>
   <HelloWorld msg="Vite + Vue" />
+  <hr />
+  <eCharts style="height: 500px" ref="charRef"></eCharts>
 </template>
 
 <style scoped>
