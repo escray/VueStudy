@@ -1,3 +1,3 @@
 import { foo } from './utils'
-
-foo()
+// for tree-shaking
+/*#__PURE__*/ foo()
