@@ -5,12 +5,18 @@ import Home from '../pages/home.vue'
 import Counter from '../pages/counter.vue'
 import About from '../pages/about.vue'
 import TodoList from '../pages/todolist.vue'
+import Login from '../pages/Login.vue'
 
 const routes = [
   {
     path: '/',
     name: 'Home',
     component: Home
+  },
+  {
+    path: '/login',
+    component: Login,
+    hidden: true
   },
   {
     path: '/counter',
