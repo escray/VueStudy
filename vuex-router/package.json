@@ -9,8 +9,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
+<<<<<<< HEAD
+    "jsonwebtoken": "^9.0.2",
+    "mockjs": "^1.1.0",
+=======
     "axios": "^1.6.0",
     "element3": "^0.0.40",
+>>>>>>> 0af6d986aa6730ae5625076e001a4e78ac25a475
     "vue": "^3.3.4",
     "vue-router": "^4.0.13",
     "vuex": "^4.0.2"
@@ -19,10 +24,16 @@
     "@typescript-eslint/eslint-plugin": "^6.10.0",
     "@typescript-eslint/parser": "^6.10.0",
     "@vitejs/plugin-vue": "^4.2.3",
+<<<<<<< HEAD
+    "eslint": "^8.53.0",
+    "vite": "^4.5.0",
+    "vite-plugin-mock": "^3.0.0"
+=======
     "@vitejs/plugin-vue-jsx": "^3.0.2",
     "eslint": "^8.53.0",
     "eslint-plugin-vue": "^9.18.1",
     "sass": "^1.69.5",
     "vite": "^4.5.0"
+>>>>>>> 0af6d986aa6730ae5625076e001a4e78ac25a475
   }
 }
