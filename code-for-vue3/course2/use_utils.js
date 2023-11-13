@@ -1,3 +1,5 @@
+// 用户侧代码
+
 import utils from 'utils.js'
 
 // error process method 1
@@ -9,3 +11,11 @@ utils.foo(() => {
 
   }
 })
+
+// 注册错误处理程序
+utils.registerErrorHandler((e) => {
+  console.log(e)
+})
+
+utils.foo(() => { })
+utils.bar(() => { })

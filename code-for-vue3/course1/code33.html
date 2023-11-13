@@ -1,0 +1,62 @@
+<!-- code for course3 Vue3 的设计思路 -->
+
+<body></body>
+
+<script>
+
+  function renderer(vnode, container) {
+    if (typeof vnode.tag === 'string') {
+      mountElement(vnode, container)
+    } else if (typeof vnode.tag === 'object') {
+      mountComponent(vnode, container)
+    }
+  }
+
+  function mountElement(vnode, container) {
+    const el = document.createElement(vnode.tag)
+
+    for (const key in vnode.props) {
+      if (/^on/.test(key)) {
+        el.addEventListener(
+          key.substr(2).toLowerCase(),
+          vnode.props[key]
+        )
+      }
+    }
+
+    if (typeof vnode.children === 'string') {
+      el.appendChild(document.createTextNode(vnode.children))
+    } else if (Array.isArray(vnode.children)) {
+      vnode.children.forEach(child => renderer(child, el))
+    }
+
+    container.appendChild(el)
+  }
+
+  function mountComponent(vnode, container) {
+    // 调用组件函数，获取组件要渲染的内容（虚拟 DOM）
+    const subtree = vnode.tag.render()
+    // 递归调用 renderer 渲染 subtree
+    renderer(subtree, container)
+  }
+
+  const MyComponent = {
+    render() {
+      return {
+        tag: 'div',
+        props: {
+          onClick: () => alert('hello')
+        },
+        children: 'code 33 click me'
+      }
+    }
+  }
+
+  const vnode = {
+    tag: MyComponent
+  }
+
+  renderer(vnode, document.body)
+
+
+</script>
