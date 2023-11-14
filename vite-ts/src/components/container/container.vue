@@ -1,26 +1,13 @@
-<style lang="scss">
-@import '../styles/mixin';
-@include b(container) {
-  display: flex;
-  flex-direction: row;
-  flex: 1;
-  flex-basis: auto;
-  box-sizing: border-box;
-  min-width: 0;
-  @include when(vertical) {
-    flex-direction: column;
-  }
-}
-</style>
-
 <template>
-  <section class="el-container" :class="{ 'is-vertical': isVertical }">
+  <section
+    class="el-container"
+    :class="{ 'is-vertical': isVertical }">
     <slot />
   </section>
 </template>
 
 <script lang="ts">
-export default{
+export default {
   name:'ElContainer'
 }
 </script>
@@ -41,7 +28,28 @@ const isVertical = computed(() => {
       return tag === 'ElHeader' || tag === 'ElFooter'
     })
   } else {
+    // if (props.direction === 'vertical') {
+    //   return true
+    // } else {
+    //   return false
+    // }
     return props.direction === 'vertical'
   }
 })
 </script>
+
+<style lang="scss">
+@import '../styles/mixin.scss';
+@include b(container) {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  flex-basis: auto;
+  box-sizing: border-box;
+  min-width: 0;
+
+  @include when(vertical) {
+    flex-direction: column;
+  }
+}
+</style>
