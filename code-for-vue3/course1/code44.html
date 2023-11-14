@@ -1,0 +1,29 @@
+<!-- 比较 Map 和 WeakMap -->
+<body></body>
+<script>
+  const map = new Map()
+  const weakmap = new WeakMap()
+
+  // (function(){
+  //   foo = {foo: 1};
+  //   bar = {bar: 2};
+  //   map.set(foo, 1);
+  //   weakmap.set(bar, 2);
+  // })()
+
+  // console.log(map.get())
+
+  obj1 = {}
+  obj2 = {}
+
+  map.set(obj1, 1)
+  weakmap.set(obj2, 2)
+
+  console.log(map.get(obj1))
+  console.log(weakmap.get(obj2))
+
+  obj1 = null
+  obj2 = null
+
+  console.log(map.get(obj1))
+</script>
