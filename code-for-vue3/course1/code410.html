@@ -1,5 +1,5 @@
 <!-- code for course3 Vue3 响应系统 -->
-<!-- 4.7 调度执行 -->
+<!-- 4.9 watch 的实现原理 -->
 
 <body></body>
 
@@ -213,10 +213,37 @@
 
   // watch 函数接收力两个参数，source 是响应式数据，cb 是回调函数
   function watch(source, cb) {
+    let getter
+    // 如果 source 是函数，说明用户传递的是 getter
+    // 直接把 source 赋值给 getter
+    if (typeof source === 'function') {
+      getter = source
+    } else { //  否则调用 traverse 递归读取
+      getter = () => traverse(source)
+    }
+
+    let oldValue, newValue
+    // 使用 effect 注册副作用函数时，开启 lazy 选项
+    // 并把返回值存储到 effectFn 中以便后续手动调用
+    const effectFn = effect(
+      () => getter(),
+      {
+        lazy: true,
+        scheduler() {
+          // 在 scheduler 中重新执行副作用函数，得到新值
+          newValue = effectFn()
+          // 将旧值和新值作为回调函数的参数
+          cb(newValue, oldValue)
+          // 更新旧值
+          oldValue = newValue
+        }
+      }
+    )
+    // 手动调用副作用函数，得到旧值
+    oldValue = effectFn()
+
     effect(
-      // 触发读取操作，从而建立联系
-      // 调用 traverse 递归读取
-      () => traverse(source), {
+      () => getter(), {
       scheduler() {
         // 当数据变化时，调用回调函数
         cb()
@@ -224,9 +251,20 @@
     })
   }
 
+  // 回调函数只有在响应式数据 obj 后续发生变化时彩之星
   watch(obj, () => {
     console.log('data changed');
+  }, {
+    // 回调函数会在 watch 创建时立即执行一次
+    immediate: true
   })
+
+  watch(
+    () => obj.foo,
+    (newValue, oldValue) => {
+      console.log(newValue, oldValue);
+    }
+  )
   // const sumRes = computed(() => obj.foo + obj.bar)
 
   // console.log(sumRes.value)
