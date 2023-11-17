@@ -2,12 +2,13 @@
   "name": "vite-ts",
   "private": true,
   "version": "0.0.0",
-  "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc && vite build",
+    "build": "vue-tsc --noEmit && vite build",
     "preview": "vite preview",
-    "prepare": "cd .. && husky install vite-ts/.husky"
+    "prepare": "cd .. && husky install vite-ts/.husky",
+    "test": "jest",
+    "test:w": "jest --watchAll"
   },
   "dependencies": {
     "vue": "^3.3.4"
