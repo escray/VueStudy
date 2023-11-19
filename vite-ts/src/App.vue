@@ -1,8 +1,3 @@
-<script setup lang="ts">
-// import HelloWorld from './components/HelloWorld.vue'
-import ElButton from './components/button/Button.vue'
-</script>
-
 <template>
   <div>
   <el-button type="primary">Primary Button</el-button>
@@ -12,6 +7,20 @@ import ElButton from './components/button/Button.vue'
   </div>
   <hr />
 
+  <div>
+  <el-form ref="myForm" :model="model" :rules="rules">
+    <el-form-item label="username:" prop="username">
+      <el-input v-model="model.username" />
+    </el-form-item>
+    <el-form-item label="password:" prop="password">
+      <el-input v-model="model.password" type="password" />
+    </el-form-item>
+    <el-form-item>
+      <el-button type="primary" @click="login">Login</el-button>
+    </el-form-item>
+  </el-form>
+  </div>
+  <hr />
   <!-- <div>
     <a href="https://vitejs.dev" target="_blank">
       <img src="/vite.svg" class="logo" alt="Vite logo" />
@@ -50,6 +59,50 @@ import ElButton from './components/button/Button.vue'
   </el-container>
 
 </template>
+
+<script setup lang="ts">
+// import HelloWorld from './components/HelloWorld.vue'
+import ElButton from './components/button/Button.vue'
+import ElForm from './components/form/Form.vue'
+
+import { ref, reactive } from 'vue'
+const comp = ref('form')
+import { FormType } from './components/form/type'
+
+const compExamples = ref(['container', 'button', 'form', 'dialog', 'notification'])
+const showDialog = ref<boolean>(false)
+
+const model = reactive({
+  username: "",
+  password: "",
+})
+
+const rules = reactive({
+  username: [
+    {
+      required: true,
+      message: "please input user name!",
+    },
+  ],
+  password: [
+    {
+      required: true,
+      message: "please input password!",
+    },
+  ],
+})
+
+const myForm = ref<FormType>()
+const login = () => {
+  myForm.value?.validate((isValid) => {
+    if (isValid) {
+      console.log(model)
+    } else {
+      alert("please input correctly format!")
+    }
+  })
+}
+</script>
 
 <style scoped>
 body {
