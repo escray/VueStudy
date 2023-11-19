@@ -1,8 +1,17 @@
 <script setup lang="ts">
 // import HelloWorld from './components/HelloWorld.vue'
+import ElButton from './components/button/Button.vue'
 </script>
 
 <template>
+  <div>
+  <el-button type="primary">Primary Button</el-button>
+  <el-button type="success">Success Button</el-button>
+  <el-button>Normal Button</el-button>
+  <el-button size="small">Small Button</el-button>
+  </div>
+  <hr />
+
   <!-- <div>
     <a href="https://vitejs.dev" target="_blank">
       <img src="/vite.svg" class="logo" alt="Vite logo" />
