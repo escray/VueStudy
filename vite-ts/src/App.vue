@@ -21,7 +21,33 @@
   </el-form>
   </div>
   <hr />
-  <!-- <div>
+  <div>
+    <el-button @click="showDialog=true">OPEN</el-button>
+    <el-dialog v-if="showDialog"
+      title="Notification"
+      :visible.sync="dialogVisible"
+      width="30%"
+      v-model:visible="dialogVisible"
+    >
+    <span>This is a message notification</span>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="dialogVisible = false">CANCLE</el-button>
+        <el-button type="primary" @click="dialogVisible = true">Commit</el-button>
+      </span>
+    </template>
+    <el-button @click="showDialog=false">CLOSE</el-button>
+    </el-dialog>
+  </div>
+  <teleport :disabled="!appendToBody" to="body">
+    <div class="el-dialog">
+      <div class="el-dialog__content">
+        <slot />
+      </div>
+    </div>
+  </teleport>
+  <!--
+  <div>
     <a href="https://vitejs.dev" target="_blank">
       <img src="/vite.svg" class="logo" alt="Vite logo" />
     </a>
@@ -68,6 +94,9 @@ import ElForm from './components/form/Form.vue'
 import { ref, reactive } from 'vue'
 const comp = ref('form')
 import { FormType } from './components/form/type'
+
+const dialogVisible = true
+const appendToBody = false
 
 const compExamples = ref(['container', 'button', 'form', 'dialog', 'notification'])
 const showDialog = ref<boolean>(false)
