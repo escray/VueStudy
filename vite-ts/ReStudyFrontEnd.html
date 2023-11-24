@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="cn">
+<head>
+    <meta charset="UTF-8" />
+</head>
+<body>
+
+<div class="outer">
+  <div class="inner"></div>
+  <div class="inner"></div>
+  <div class="inner"></div>
+</div>
+
+<div class="outer">
+  <div class="fixed"><p>FIXED</p></div>
+  <div class="auto"><p>AUTO</p></div>
+</div>
+
+
+
+<!-- <div>
+  <p>
+    Please select a shape:
+    <img src="shapes.png" usemap="#shapes"
+      alt="Four shapes are available: a red hollow box, a green circle, a blue triangle, and a yellow four-pointed star.">
+    <map name="shapes">
+      <area shape=rect coords="50,50,100,100">
+      <area shape=rect coords="25,25,125,125" href="red.html" alt="Red box.">
+      <area shape=circle coords="200,75,50" href="green.html" alt="Green circle.">
+      <area shape=poly coords="325,25,262,125,388,125" href="blue.html" alt="Blue triangle.">
+      <area shape=poly coords="450,25,435,60,400,75,435,90,450,125,465,90,500,75,465,60" href="yellow.html"
+        alt="Yellow star.">
+    </map>
+  </p>
+</div>
+
+<p class="special">I'm real element</p>
+
+<p class="special">I'm real element</p>
+
+<p class="special">I'm real element</p>
+
+    <div>
+      <span id=a>First paragraph</span><br />
+      <span>Second paragraph</span>
+    </div>
+
+
+<div class="cssdemo">
+  <p>This is a somewhat long HTML
+    paragraph that will be broken into several
+    lines. The first line will be identified
+    by a fictional tag sequence. The other lines
+    will be treated as ordinary lines in the
+    paragraph.</p>
+    <div>
+      <p id=a>First paragraph</p>
+      <p>Second paragraph</p>
+    </div>
+</div>
+
+
+  <h1>HTML语义</h1>
+  <p>balah balah balah balah</p>
+  <h2>弱语义</h2>
+  <p>balah balah</p>
+  <h2>结构性元素</h2>
+  <p>balah balah</p>
+<hr />
+  <h1>JavaScript对象</h1>
+  <h2>我们需要模拟类吗？</h2>
+  <p>balah balah</p>
+<hr />
+<hgroup>
+  <h1>JavaScript对象(hgroup)</h1>
+  <h2>我们需要模拟类吗？</h2>
+</hgroup>
+<p>balah balah</p>
+<hr />
+<section>
+  <h1>HTML语义(section)</h1>
+  <p>balah balah balah balah</p>
+  <section>
+    <h1>弱语义</h1>
+    <p>balah balah</p>
+  </section>
+  <section>
+    <h1>结构性元素</h1>
+    <p>balah balah</p>
+  </section>
+
+</section>
+-->
+</body>
+</html>
+
+<style>
+
+.inner {
+  width:33.33%;
+  height:300px;
+  display:inline-block;
+  outline:solid 1px blue;
+  /* font-size:30px; */
+}
+
+.outer {
+  font-size:0;
+}
+
+.inner:last-child {
+  margin-right:-5px;
+}
+
+.fixed {
+  width: 200px;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.fixed, .auto {
+  height: 300px;
+  outline: solid 1px red
+}
+
+.auto {
+  margin-left: -200px;
+  padding-left: 200px;
+  box-sizing: border-box;
+  width: 100%;
+  display: inline-block;
+  vertical-align: top;
+}
+  /* .cssdemo {
+
+    ::first-line {
+          text-transform: uppercase;
+        };
+        ::first-letter {
+          text-transform: uppercase;
+          font-size: 2em;
+          float: left;
+        };
+  }
+
+  div>p#a {
+      color: green;
+  }
+
+  div>span#a {
+      color: green;
+  }
+
+
+  div::first-line {
+      color: blue;
+  }
+
+  div::first-letter {
+      color: blue;
+  } */
+
+  /* .special::before {
+    display: block;
+    content: "pseudo! ";
+    content: counter(chapno, upper-roman) ". ";
+  }
+
+  .special::after {
+    display: block;
+    content: "pseudo! ";
+    content: counter(chapno, upper-roman) ". ";
+  } */
+    /* .x, .z {
+      background-color:lightcoral;
+    }
+    .z {
+      background-color:lightblue;
+    }
+    .y {
+      background-color:lightgreen;
+    }
+    .x {
+      background-color:lightblue;
+    } */
+
+</style>
+

@@ -10,6 +10,10 @@
     "nprogress": "^0.2.0",
     "rollup": "^4.4.0",
     "sass": "^1.69.5",
+<<<<<<< HEAD
     "vuepress": "^2.0.0-rc.0"
+=======
+    "vitepress": "^1.0.0-rc.29"
+>>>>>>> d3f4863 (from office)
   }
 }
