@@ -1,0 +1,20 @@
+{
+  "name": "vue-inside",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.23.3",
+    "@babel/preset-env": "^7.23.3",
+    "babel-jest": "^29.7.0"
+  },
+  "dependencies": {
+    "@babel/preset-typescript": "^7.23.3",
+    "jest-environment-jsdom": "^29.7.0"
+  }
+}
