@@ -8,6 +8,40 @@ import {
   Static,
 } from './vnode'
 
+import {
+  filterSingleRoot,
+  renderComponentRoot,
+  shouldUpdateComponent,
+  updateHOCHostEl
+} from './componentRenderUtils'
+
+import {
+  EMPTY_OBJ,
+  EMPTY_ARR,
+  isReservedProp,
+  ShapeFlags,
+  PatchFlags,
+  NOOP,
+  invokeArrayFns,
+  isArray,
+  getGlobalThis
+} from '@vue/shared'
+
+// Renderer Node can technically be any object in the context of core renderer
+// logic - they are never directly operated on and always passed to the node op
+// functions provided via options, so the internal constraint is really just
+// a generic object.
+export interface RendererNode {
+  [key: string]: any
+}
+
+export interface RendererElement extends RendererNode { }
+
+export interface RendererOptions<
+  HostNode = RendererNode,
+  HostElement = RendererElement
+  > { }
+
 export function createRenderer<
   HostNode = RendererNode,
   HostElement = RendererElement
@@ -85,12 +119,12 @@ function baseCreateRenderer(options) {
         // 运运算判断操作类型
         // html标签
         if (shapeFlag && ShapeFlags.ELEMENT) {
-          processElement(n1, n2, container, anchor, parentComponnent,
+          processElement(n1, n2, container, anchor, parentComponent,
             parentSuspense, isSVG, slotScopeIds, optimized)
         } else if (shapeFlag && ShapeFlags.COMPONENT) {
           // 组件
           processComponent(n1, n2, container, anchor, parentComponent,
-            parentSuspens, isSVG, slotScopeIds, optimized)
+            parentSuspense, isSVG, slotScopeIds, optimized)
         } else if (shapeFlag && ShapeFlags.TELEPORT) {
           ;(type as typeof TeleportImpl).process(
             n1 as TeleportVNode, n2 as TeleportVNode, container, anchor, parentComponent, parentSuspense, isSVG, slotScopeIds, optimized, internals
@@ -145,7 +179,27 @@ function baseCreateRenderer(options) {
   const processElement = () => { }
 
   // 更新组件
-  const updateComponent = () => { }
+  const updateComponent = (
+    n1: VNode,
+    n2: VNode,
+    optimized: boolean
+  ) => {
+    const instance = (n2.component = n1.component)!
+    if (shoudUpdateComponent(n1, n2, optimized)) {
+      // normal update
+      instance.next = n2
+      // in case the child component is also queued, remove it to avoid
+      // double updating the same child component in the same flush.
+      invalidateJob(instance.update)
+      // instance.update is the reactive effect.
+      instannce.update()
+    } else {
+      // no update needed. just copy over properties
+      n2.component = n1.component
+      n2.el = n1.el
+      instance.vnode = n2
+    }
+  }
 
   // 更新
   const updateElement = () => { }
@@ -203,7 +257,37 @@ function baseCreateRenderer(options) {
 
   const mountChildren = () => { }
 
-  const patchElement = () => { }
+  const patchElement = (
+    n1: VNode,
+    n2: VNode,
+    parentComponent: ComponentInternalInstance | null,
+    parentSuspense: SuspenseBoundary | null,
+    isSVG: boolean,
+    slotScopeIds: string[] | null,
+    optimized: boolean
+  ) => {
+    const el = (n2.el = n1.el!)
+    let { patchFlag, dynamicChildren, dirs } = n2
+    patchFlag |= n1.patchFlag & PatchFlags.FULL_PROPS
+
+    const oldProps = n1.props || EMPTY_OBJ
+    const newProps = n2.props || EMPTY_OBJ
+
+    patchChildren(n1, n2, el, null, parentComponent, parentSuspense, areChildrenSVG, slotScopeIds, false)
+
+    if (patchFlag > 0) {
+      if (patchFlag & PatchFlags.FULL_PROPS) {
+        patchProps(el, n2, oldProps, newProps, parentComponent, parentSuspense, isSVG)
+      } else {
+        //
+        if (patchFlag & PatchFlags.C) {
+
+        }
+      }
+    }
+
+  }
+
 
   const patchProps = () => { }
 
@@ -240,8 +324,7 @@ function baseCreateRenderer(options) {
     }
   }
 
-
-
+// vue/core/packages/runtime-core/src/renderer.ts
   const setupRenderEffect: SetupRenderEffectFn = (
     instance,
     initialVNode,
@@ -251,14 +334,37 @@ function baseCreateRenderer(options) {
     isSVG,
     optimized
   ) => {
-    if (!instance.isMounted) {
-      patch(null, subTree, container, anchor, instance, parentSuspense, isSVG)
-    } else {
-      // updateComponent
+    const componentUpdateFn = () => {
+      // //首次渲染
+      if (!instance.isMounted) {
+        patch(null, subTree, container, anchor, instance, parentSuspense, isSVG)
+      } else {
+        // updateComponent
+        // This is triggered by mutation of component's own state (next: null)
+        // OR parent calling processComponent (next: VNode)
+        let { next, bu, u, parent, vnode } = instance
+        if (next) {
+          next.el = vnode.el
+          updateComponentPreRender(instance, next, optimized)
+        } else {
+          next = vnode
+        }
+
+        const nextTree = renderComponentRoot(instance)
+        patch(prevTree, nextTree,
+          // parent may have changed if it's in a teleport
+          hostParentNode(preTree.el!)!,
+          // anchor may have changed if it's in a fragment
+          getNextHostNode(prevTree),
+          instance, parentSuspense, isSVG)
+
+        next.el = nextTree.el
+      }
     }
 
     // create reactive effect for rendering
-    cconst effect = new ReactiveEffect(
+    // 注册effect函数
+    const effect = new ReactiveEffect(
       componentUpdateFn,
       () => queueJob(instance.update),
       instance.scope // track it in component's effect scope
@@ -269,13 +375,31 @@ function baseCreateRenderer(options) {
     update()
   }
 
+  const updateComponentPreRender = (
+    instance: ComponentInternalInstance,
+    nextVNode: VNode,
+    optimized: boolean
+  ) => {
+    nextVNode.component = instance
+    const prevProps = instance.vnode.props
+    instance.vnode = nextVNode
+    instance.next = null
+    updateProps(instance, nextVNode.props, prevProps, optimized)
+    updateSlots(instance, nextVNode.children, optimized)
+
+    pauseTracking()
+    // props update may have triggered pre-flush watchers.
+    // flush them before the render update.
+    flushPreFlushCbs(undefined, instance.update)
+    resetTracking()
+  }
+
   // patch组元素 复杂的逻辑
   const patchChildren = () => { }
 
   const patchKeyedChildren = () => { }
 
   const unmount = () => { }
-
 
   const render: RootRenderfunction = (vnode, container, isSVG) => {
     if (vnode == null) {
@@ -288,6 +412,7 @@ function baseCreateRenderer(options) {
     flushPostFlushCbs()
     container._vnode = vnode
   }
+
   return {
     render,
     hydrate,
