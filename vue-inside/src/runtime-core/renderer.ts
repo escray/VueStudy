@@ -166,7 +166,37 @@ function baseCreateRenderer(options) {
     initSlot(instance, children)
 
     const setupResult = isStateful ? setupStatefulComponent(instance, isSSR) : undefined
-   }
+    isInSSRComponentSetup = false
+    return setupResult
+  }
+
+  function setupStatefulCompnent(
+    instance: ComponentInternalInstance,
+    isSSR: boolean
+  ) {
+    const Component = instance.type as ComponentOptions
+    // execute setup
+    const { setup } = Component
+    if (setup) {
+      const setupContext = (instance.setupContext =
+        setup.length > 1 ? createSetupContext(instance) : null)
+      setCurrentInstance(instance)
+      pauseTracking()
+      const setupResult = callWithErrorHandling(
+        setup,
+        instance,
+        ErrorCodes.SETUP_FUNCTION,
+        [instance.props, setupContext]
+      )
+      if (isPromise(setupResult)) {
+        setupResult.then(unsetCurrentInstance, unsetCurrentInstance)
+      } else {
+        handleSetupResult(instance, setupResult, isSSR)
+      }
+    } else {
+      finishComponentSetup(instance, isSSR)
+    }
+  }
 
   // 挂载html元素
   const mountElement = () => { }
@@ -176,7 +206,6 @@ function baseCreateRenderer(options) {
   const patchElement = () => { }
 
   const patchProps = () => { }
-
 
   const mountComponent: MountComponentFn = (
     initialVnode,
@@ -212,7 +241,33 @@ function baseCreateRenderer(options) {
   }
 
 
-  const setupRenderEffect = () => { }
+
+  const setupRenderEffect: SetupRenderEffectFn = (
+    instance,
+    initialVNode,
+    container,
+    anchor,
+    parentSuspense,
+    isSVG,
+    optimized
+  ) => {
+    if (!instance.isMounted) {
+      patch(null, subTree, container, anchor, instance, parentSuspense, isSVG)
+    } else {
+      // updateComponent
+    }
+
+    // create reactive effect for rendering
+    cconst effect = new ReactiveEffect(
+      componentUpdateFn,
+      () => queueJob(instance.update),
+      instance.scope // track it in component's effect scope
+    )
+
+    const update = (instance.update = effect.run.bind(effect) as SchedulerJob)
+    update.id = instance.uid
+    update()
+  }
 
   // patch组元素 复杂的逻辑
   const patchChildren = () => { }
@@ -239,4 +294,21 @@ function baseCreateRenderer(options) {
     createApp: createAppAPI(render, hydrate)
   }
 
+}
+
+// https://github.com/vuejs/core/blob/main/packages/runtime-core/src/errorHandling.ts
+export function callwithErrorHandling(
+  fn: Function,
+  instance: ComponentInternalInstance | null,
+  type: ErrorTypes,
+  args?: unknown[]
+) {
+  let res
+  try {
+    res = args ? fn(...args) : fn()
+  } catch (err) {
+    handleError(err, instance, type)
+  }
+
+  return res
 }
