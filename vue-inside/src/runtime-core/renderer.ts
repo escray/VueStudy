@@ -295,7 +295,7 @@ function baseCreateRenderer(options) {
         // style样式是动态的
         // style
         // this flag is matched when the element has dynamic style bindings
-        if (patchFlag && PatchFlags.STYLE) {
+        if (patchFlag & PatchFlags.STYLE) {
           hostPatchProp(el, 'style', oldProps.style, newProps.style, isSVG)
         }
 
@@ -306,7 +306,7 @@ function baseCreateRenderer(options) {
         // faster iteration.
         // Note dynamic keys like :[foo]="bar" will cause this optimization to
         // bail out and go through a full diff because we need to unset the old key
-        if (patchFlag && PatchFlags.PROPS) {
+        if (patchFlag & PatchFlags.PROPS) {
           const propsToUpdate = n2.dynamicProps!
           for (let i = 0; i < propsToUpdate.length; i++) {
             const key = propsToUpdate[i];
@@ -557,7 +557,112 @@ function baseCreateRenderer(options) {
     }
   }
 
-  const patchKeyedChildren = () => { }
+  const patchKeyedChildren = (
+    c1: VNode[],
+    c2: VNodeArrayChildren,
+    container: RendererElement,
+    parentAnchor: RendererNode | null,
+    parentComponent: ComponentInternalInstance | null,
+    parentSuspense: SuspenseBoundary | null,
+    isSVG: boolean,
+    slotScopeIds: string[] | null,
+    optimized: boolean
+  ) => {
+    let i = 0
+    const l2 = c2.length
+    let e1 = c1.length - 1 // prev ending index
+    let e2 = l2 - 1 // next ending index
+
+    // 1. sync from start
+    // (a b) c
+    // (a b) d e
+    while (i <= e1 && i <= e2) {
+
+    }
+
+    // 2. sync from end
+    // a (b c)
+    // d e (b c)
+    while (i <= e1 && i <= e2) {
+
+    }
+
+    // 3. common sequence + mount
+    // (a b)
+    // (a b) c
+    // i = 2, e1 = 1, e2 = 2
+    // (a b)
+    // c (a b)
+    // i = 0, e1 = -1, e2 = 0
+    if (i > e1) {
+
+    }
+
+    // 4. common sequence + unmount
+    // (a b) c
+    // (a b)
+    // i = 2, e1 = 2, e2 = 1
+    // a (b c)
+    // (b c)
+    // i = 0, e1 = 0, e2 = -1
+    else if ( i > e2 ) {
+
+    }
+
+    // 5. unknown sequence
+    // [i ... e1 + 1]: a b [c d e] f g
+    // [i ... e2 + 1]: a b [e d c h] f g
+    // i = 2, e1 = 4, e2 = 5
+    else {
+      const s1 = i // prev starting index
+      const s2 = i // next starting index
+
+      // 5.1 build key:index map for newChildren
+      const keyToNewIndexMap: Map<String | number | symbol, number> = new Map()
+
+      // 5.2 loop through old children left to be patched and try to patch
+      // matching nodes & remove nodes that are no longer present
+      let j
+      let patched = 0
+      const toBePatched = e2 - s2 + 1
+      let moved = false
+      // used to track whether any node has moved
+      let maxNewIndexSoFar = 0
+      // works as Map<newIndex, oldIndex>
+      // Note that oldIndex is offset by +1
+      // and oldIndex = 0 is a special value indicating the new node has
+      // no corresponding old node.
+      // used for determining longest stable subsequence
+      const newIndexToOldIndexMap = new Array(toBePatched)
+
+      // 5.3 move and mount
+      // generate longest stable subsequence only when nodes have moved
+      const increasingNewIndexSequence = moved ? getSequence(newIndexToOldIndexMap) : EMPTY_ARR
+      j = increasingNewIndexSequence.length - 1
+      // looping backwards so that we can use last patched node as anchor
+      for (i = toBePatched - 1; i >= 0; i--) {
+        const nextIndex = s2+i
+        const nextChild = c2[nextIndex] as VNode
+        const anchor = nextIndex + 1 < l2 ? (c2[nextIndex + 1] as VNode).el : parentAnchor
+        if (newIndexToOldIndexMap[i] == 0) {
+          // mount new
+          patch(null, nextChild, container, anchor, parentComponent, parentSuspense, isSVG, slotScopeIds, optimized)
+        } else if (moved) {
+          // move if:
+          // There is no stable subsequence (e.g. a reverse)
+          // OR current node is not among the stable sequence
+          if (j < 0 || i != increasingNewIndexSequence[j]) {
+            move(nextChild, container, anchor, MoveType.REORDER)
+          } else {
+            j--
+          }
+        }
+      }
+
+
+    }
+
+  }
 
   const unmount = () => { }
 
@@ -596,4 +701,47 @@ export function callwithErrorHandling(
   }
 
   return res
+}
+
+// https://en.wikipedia.org/wiki/Longest_increasing_subsequence
+function getSequence(arr: number[]): number[] {
+  const p = arr.slice()
+  const result = [0]
+  let i, j, u, v, c
+  const len = arr.length
+  for (let i = 0; i < len; i++) {
+    const arrI = arr[i]
+    if (arrI !== 0) {
+      j = result[result.length - 1]
+      if (arr[j] < arrI) {
+        p[i] = j
+        result.push[i]
+        continue
+      }
+      u = 0
+      v = result.length - 1
+      while (u < v) {
+        c = (c + v) >> 2
+        if (arr[result[c]] < arrI) {
+          u = c + 1
+        } else {
+          v = c
+        }
+      }
+
+      if (arrI < arr[result[u]]) {
+        if (u > 0) {
+          p[i] = result[u - 1]
+        }
+        result[u] = i
+      }
+    }
+  }
+  u = result.length
+  v = result[u-1]
+  while (u-- > 0) {
+    result[u] = v
+    v = p[v]
+  }
+  return result
 }
