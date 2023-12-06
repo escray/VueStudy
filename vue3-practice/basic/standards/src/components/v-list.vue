@@ -11,9 +11,9 @@
 </template>
 
 <script setup lang="ts">
-import type { MyStore } from '../types'
-import { useMyStore } from '../store'
-const myStore: MyStore = useMyStore()
+import type { MyStore } from '../types';
+import { useMyStore } from '../store';
+const myStore: MyStore = useMyStore();
 </script>
 
 <style>

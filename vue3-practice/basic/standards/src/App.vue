@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
-import VInfo from './components/v-info.vue'
-import VText from './components/v-text.vue'
-import VList from './components/v-list.vue'
+import HelloWorld from './components/HelloWorld.vue';
+import VInfo from './components/v-info.vue';
+import VText from './components/v-text.vue';
+import VList from './components/v-list.vue';
 </script>
 
 <template>

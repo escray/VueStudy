@@ -2,14 +2,16 @@
   <div class="v-info">
     <div>Order Info</div>
     <div>Address: {{ myStore.text }}</div>
-    <div>TotalPrice: <span class="v-info-value">{{ myStore.totalPrice }}</span></div>
+    <div>
+      TotalPrice: <span class="v-info-value">{{ myStore.totalPrice }}</span>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import type { MyStore } from '../types'
-import { useMyStore } from '../store'
-const myStore: MyStore = useMyStore()
+import type { MyStore } from '../types';
+import { useMyStore } from '../store';
+const myStore: MyStore = useMyStore();
 </script>
 
 <style>

@@ -6,13 +6,13 @@
 </template>
 
 <script setup lang="ts">
-import type { MyStore } from '../types'
-import { useMyStore } from '../store'
-const myStore: MyStore = useMyStore()
+import type { MyStore } from '../types';
+import { useMyStore } from '../store';
+const myStore: MyStore = useMyStore();
 const onInput = (e: Event) => {
-  const target = e.target as HTMLInputElement
-  myStore.updateText(target?.value)
-}
+  const target = e.target as HTMLInputElement;
+  myStore.updateText(target?.value);
+};
 </script>
 
 <style>
