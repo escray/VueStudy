@@ -22,7 +22,7 @@ function checkPackageType(project: Project) {
 }
 
 // 将*.d.ts文件复制到指定格式模块目录里
-async function copyyDts(pkgDirName: string) {
+async function copyDts(pkgDirName: string) {
   const dtsPaths = await glob(['**/*.d.ts'], {
     cwd: resolveProjectPath('dist', 'types', 'packages', pkgDirName, 'src'),
     absolute: false,
@@ -56,4 +56,93 @@ async function addSourceFiles(project: Project, pkgSrcDir: string) {
     absolute: true,
     onlyFiles: true
   })
+
+  const sourceFiles: SourceFile[] = []
+  await Promise.all([
+    ...filePaths.map(async (file) => {
+      if (file.endsWith('.vue')) {
+        const content = fs.readFileSync(file, { encoding: 'utf8' })
+        const hasTsNoCheck = content.includes('@ts-nocheck')
+
+        const sfc = vueCompiler.parse(content)
+        const { script, scriptSetup } = sfc.descriptor
+        if (script || scriptSetup) {
+          let content =
+            (hasTsNoCheck ? '// @ts-nocheck\n' : '') + (script?.content ?? '')
+          if (scriptSetup) {
+            const compiled = vueCompiler.compileScript(sfc.descriptor, {
+              id: 'temp'
+            })
+            content += compiled.content
+          }
+          const lang = scriptSetup?.lang || script?.lang || 'js'
+          const sourceFile = project.createSourceFile(
+            `${path.relative(process.cwd(), file)}.${lang}`,
+            content
+          )
+          sourceFiles.push(sourceFile)
+        }
+      } else {
+        const sourceFile = project.addSourceFileAtPath(file)
+        sourceFiles.push(sourceFile)
+      }
+    })
+  ])
+  return sourceFiles
 }
+
+// 生产Typescript类型描述文件
+async function generateTypesDefinitions(
+  pkgDir: string,
+  pkgSrcDir: string,
+  outDir: string
+) {
+  const compilerOptions: CompilerOptions = {
+    emitDeclarationOnly: true,
+    outDir
+  }
+  const project = new Project({
+    compilerOptions,
+    tsConfigFilePath: tsWebBuildConfigPath
+  })
+
+  const sourceFiles = await addSourceFiles(project, pkgSrcDir)
+  checkPackageType(project)
+  await project.emit({
+    emitOnlyDtsFiles: true
+  })
+
+  const tasks = sourceFiles.map(async (sourceFile) => {
+    const relativePath = path.relative(pkgDir, sourceFile.getFilePath())
+
+    const emitOutput = sourceFile.getEmitOutput()
+    const emitFiles = emitOutput.getOutputFiles()
+    if (emitFiles.length === 0) {
+      throw new Error(`异常文件: ${relativePath}`)
+    }
+
+    const subTasks = emitFiles.map(async (outputFile) => {
+      const filepath = outputFile.getFilePath()
+      fs.mkdirSync(path.dirname(filepath), {
+        recursive: true
+      })
+    })
+
+    await Promise.all(subTasks)
+  })
+  await Promise.all(tasks)
+}
+
+async function build(pkgDirName: string) {
+  const outDir = resolveProjectPath('dist', 'types')
+  const pkgDir = resolvePackagePath(pkgDirName)
+  const pkgSrcDir = resolvePackagePath(pkgDirName, 'src')
+  await generateTypesDefinitions(pkgDir, pkgSrcDir, outDir)
+  await copyDts(pkgDirName)
+}
+
+console.log('[Dts] start compiling d.ts files...')
+await build('components')
+await build('business')
+console.log('[Dts] compiled d.ts files success!')
+
