@@ -1,3 +1,3 @@
-import Box from './box.vue'
+import { Box } from './box'
 
 export default Box

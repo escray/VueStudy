@@ -1,10 +1,9 @@
 <template>
-  <div :class="{ [baseClassName]: true }">
+  <button :class="{ [`${prefixName}-button`]: true }">
     <slot v-if="$slots.default"></slot>
-  </div>
+  </button>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { prefixName } from '../theme/index'
-const baseClassName = `${prefixName}-box`
 </script>

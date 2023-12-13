@@ -2,7 +2,9 @@ import { defineComponent } from 'vue'
 import { prefixName } from '../theme/index'
 
 export const Box = defineComponent({
-  props: { class: String },
+  props: {
+    class: String
+  },
   setup(props, { slots }) {
     return () => {
       return (
