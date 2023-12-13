@@ -1,11 +1,11 @@
 <template>
-  <!-- <Box class="example"> -->
+  <Box class="example">
     <div>这是开发模式下的 业务组件</div>
     <Counter />
-  <!-- </Box> -->
+  </Box>
 </template>
 <script setup lang="ts">
-// import { Box } from '@my/components'
+import { Box } from '@my/components'
 import { Counter } from './src'
 </script>
 
