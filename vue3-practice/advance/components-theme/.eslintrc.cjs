@@ -14,6 +14,7 @@ module.exports = {
     // 单引号限制
     quotes: ['error', 'single'],
     // 禁用console
-    'no-console': 'error'
+    'no-console': 'error',
+    'vue/multi-word-component-names': 'off'
   }
 };

@@ -1,5 +1,6 @@
 {
   // "extends": "@vue/tsconfig/tsconfig.web.json",
+  // different from 09
   "compilerOptions": {
     "baseUrl": ".",
     "target": "ES2020",
