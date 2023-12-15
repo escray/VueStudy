@@ -1,5 +1,5 @@
 <template>
-  <div :class="{ [baseClassName]: true}">
+  <div :class="{ [baseClassName]: true }">
     <slot v-if="$slots.default"></slot>
   </div>
 </template>

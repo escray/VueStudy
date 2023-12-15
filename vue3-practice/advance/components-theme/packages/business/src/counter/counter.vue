@@ -8,9 +8,8 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import Button from '@my/Components/esm/button'
 import Box from '@my/components/esm/box'
-
+import Button from '@my/components/esm/button'
 const num = ref<number>(100)
 const onClick = () => {
   num.value -= 1
