@@ -16,6 +16,9 @@ import { prefixName } from '../theme/index'
 type ButtonType = 'default' | 'primary' | 'success' | 'warning' | 'danger'
 type ButtonVariant = 'contained' | 'outlined'
 
+const btnType: ButtonType = 'default'
+const btnVariant: ButtonVariant = 'contained'
+
 const props = withDefaults(
   defineProps<{
     type?: ButtonType
@@ -23,8 +26,8 @@ const props = withDefaults(
     disabled?: boolean
   }>(),
   {
-    type: 'default',
-    variant: 'contained',
+    type: btnType,
+    variant: btnVariant,
     disabled: false
   }
 )

@@ -3,7 +3,6 @@
     <Box class="num-value">{{ num }}</Box>
     <Button @click="onClick">Click sub 1</Button>
   </Box>
-  <p>example.vue</p>
 </template>
 
 <script setup lang="ts">

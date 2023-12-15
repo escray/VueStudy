@@ -4,8 +4,21 @@
     "skipLibCheck": true,
     "module": "ESNext",
     "target": "ESNext",
-    "moduleResolution": "bundler",
-    "allowSyntheticDefaultImports": true
+    "moduleResolution": "Node",
+    // "allowSyntheticDefaultImports": true
+    "types": ["node"],
+    "lib": [],
+    "resolveJsonModule": true,
+    "useDefineForClassFields": true,
+    "jsx": "preserve",
+    "esModuleInterop": true,
+    "noImplicitThis": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "ignoreDeprecations": "5.0",
+    "importsNotUsedAsValues": "error",
+    "preserveValueImports": true,
+    "isolatedModules": true
   },
-  "include": ["vite.config.ts", "scripts"]
+  "include": ["scripts"]
 }

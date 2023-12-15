@@ -143,6 +143,7 @@ async function build(pkgDirName: string) {
 
 console.log('[Dts] start compiling d.ts files...')
 await build('components')
+console.log('[Dts] components compiling d.ts files success')
 await build('business')
 console.log('[Dts] compiled d.ts files success!')
 
