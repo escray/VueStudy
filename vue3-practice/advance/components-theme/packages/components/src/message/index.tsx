@@ -3,10 +3,8 @@ import MessageComponent from './message.vue'
 import type { MessageParams } from './types'
 
 const Message = {
-  debugger
   // 封装open函数
   open(params: MessageParams) {
-
     const dom = document.createElement('div')
     const body = document.querySelector('body') as HTMLBodyElement
     let duration: number | undefined = params.duration
