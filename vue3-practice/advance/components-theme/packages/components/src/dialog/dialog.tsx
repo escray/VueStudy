@@ -16,6 +16,11 @@ export const DialogComponent = defineComponent({
         <div class={`${prefixName}-dialog-mask`}>
           <div class={`${prefixName}-dialog`}>
             <div class={`${prefixName}-dialog-text`}>{props.text}</div>
+            <div class={`${prefixName}-dialog-footer`}>
+              <button class={`${prefixName}-dialog-btn`} onClick={onOk}>
+                OK
+              </button>
+            </div>
           </div>
         </div>
       )

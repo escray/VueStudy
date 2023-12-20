@@ -1,6 +1,7 @@
 import { createApp } from 'vue'
 // import Example from './examples/theme.vue'
 import Message from './examples/message.vue'
+import Dialog from './examples/dialog.vue'
 
 import './src/index.less'
 
