@@ -7,14 +7,15 @@ import { createApp } from 'vue'
 // import uncontrolled from './examples/form_uncontrolled.vue'
 // import controlled from './examples/form_controlled.vue'
 // import form from './examples/form.vue'
-import EasyDynamicForm from './examples/easy-dynamic-form.vue'
+// import EasyDynamicForm from './examples/easy-dynamic-form.vue'
+import DynamicForm from './examples/dynamic-form.vue'
 
 import './src/index.less'
 
 // const layout = createApp(Layout)
 // layout.mount(document.querySelector('#layout') as HTMLDivElement)
 
-const app = createApp(EasyDynamicForm)
+const app = createApp(DynamicForm)
 app.mount(document.querySelector('#app') as HTMLDivElement)
 
 // const dialog = createApp(Dialog)
