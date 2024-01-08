@@ -32,6 +32,7 @@
     </Form>
   </div>
 </template>
+
 <script setup lang="ts">
 import { reactive } from 'vue'
 import { prefixName } from '../theme'
@@ -83,7 +84,9 @@ const registerFieldComponent = (name: string, component: Component) => {
 }
 
 // 暴露可以注册自定义表单数据组件
-defineExpose({
+defineExpose<{
+  registerFieldComponent: typeof registerFieldComponent
+}>({
   registerFieldComponent
 })
 </script>

@@ -1,3 +1,4 @@
+<!-- eslint-disable no-console -->
 <template>
   <div class="example">
     <DynamicForm
@@ -86,12 +87,12 @@ const fieldList: DynamicFormField[] = [
   }
 ]
 
-const onFinish = (e: any) => {
-  console.log('success = ', e);
+const onFinish = (e: unknown) => {
+  console.log('success = ', e)
 }
 
-const onFinishFail = (e: any) => {
-  console.log('fail = ', e);
+const onFinishFail = (e: unknown) => {
+  console.log('fail = ', e)
 }
 </script>
 
