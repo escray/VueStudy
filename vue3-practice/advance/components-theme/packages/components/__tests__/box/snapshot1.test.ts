@@ -6,5 +6,6 @@ describe('Box', () => {
   test('snapshot', () => {
     const wrapper = mount(BoxTest)
     expect(wrapper).toMatchSnapshot()
+    expect(wrapper.html()).toMatchSnapshot()
   })
 })

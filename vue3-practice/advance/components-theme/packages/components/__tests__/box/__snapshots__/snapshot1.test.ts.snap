@@ -1057,3 +1057,9 @@ VueWrapper {
   </div>,
 }
 `;
+
+exports[`Box > snapshot 2`] = `
+"<div class="my-vue-box">
+  <div class="hello">Hello World</div>
+</div>"
+`;
