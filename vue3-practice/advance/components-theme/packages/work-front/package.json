@@ -1,0 +1,13 @@
+{
+  "name": "@my/work-front",
+  "version": "0.0.1",
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "vue": "^3.2.39"
+  },
+  "devDependencies": {
+    "vue-router": "^4.2.5"
+  }
+}

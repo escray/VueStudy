@@ -10,6 +10,7 @@
     "build:css": "vite-node ./scripts/build-css.ts",
     "dev:components": "vite-node ./scripts/dev-components.ts",
     "dev:business": "vite-node ./scripts/dev-business.ts",
+    "dev:work-front": "vite-node ./scripts/dev-work-front.ts",
     "postinstall": "npm run build",
     "test": "vitest",
     "test:update": "vitest --update",
