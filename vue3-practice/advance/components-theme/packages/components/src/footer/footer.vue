@@ -5,5 +5,6 @@
 </template>
 <script setup lang="ts">
 import { prefixName } from '../theme'
-const className = `${prefixName}-header`
+// const className = `${prefixName}-header`
+const className = `${prefixName}-footer`
 </script>

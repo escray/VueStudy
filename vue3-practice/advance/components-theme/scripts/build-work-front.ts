@@ -6,6 +6,7 @@ import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin'
 import CopyPlugin from 'copy-webpack-plugin'
 import { resolvePackagePath } from './util'
+import { buildSSRCode } from './build-work-front-ssr'
 
 const config: Configuration = {
   mode: 'production',
@@ -100,6 +101,7 @@ const config: Configuration = {
 }
 
 webpack(config, (err, stats) => {
+  buildSSRCode()
   if (err || stats?.hasErrors()) {
     err && console.log(err)
     console.error(stats?.compilation?.errors)
