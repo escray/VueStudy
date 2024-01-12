@@ -1,24 +1,26 @@
 {
   "compilerOptions": {
-    "composite": true,
-    "skipLibCheck": true,
-    "module": "ESNext",
-    "target": "ESNext",
+    "target": "ES6",
+    "module": "commonjs",
     "moduleResolution": "Node",
-    // "allowSyntheticDefaultImports": true
-    "types": ["node"],
-    "lib": [],
-    "resolveJsonModule": true,
-    "useDefineForClassFields": true,
-    "jsx": "preserve",
-    "esModuleInterop": true,
-    "noImplicitThis": true,
     "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "ignoreDeprecations": "5.0",
-    "importsNotUsedAsValues": "error",
-    "preserveValueImports": true,
-    "isolatedModules": true
+    "jsx": "preserve",
+    "sourceMap": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "lib": ["ES6", "DOM"],
+    "importHelpers": true,
+    "allowJs": true,
+
+    "composite": true,
+    "emitDeclarationOnly":true,
+    "allowImportingTsExtensions": true
   },
-  "include": ["scripts"]
+  "include": [
+    "scripts",
+    "packages/work-server/src",
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }
