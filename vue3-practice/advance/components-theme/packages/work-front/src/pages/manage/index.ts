@@ -5,7 +5,7 @@ import App from './app.vue'
 const router = createRouter({
   linkActiveClass: 'active',
 
- // history 路由配置
+  // history 路由配置
   history: createWebHistory('/page/manage/'),
   routes: [
     {
