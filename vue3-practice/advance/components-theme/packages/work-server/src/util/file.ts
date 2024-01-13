@@ -7,7 +7,7 @@ export function getServerDir() {
 
 export function getPageHTML(
   pageName: string,
-  opts: { ssrHtml?: string; ssrCss?: string }
+  opts?: { ssrHtml?: string; ssrCss?: string }
 ): string | null {
   let html: string | null = '<h1>404: Page is not exists</h1>'
   const htmlPath = path.join(getServerDir(), 'template', 'page.html')
