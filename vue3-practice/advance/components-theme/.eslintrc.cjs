@@ -17,4 +17,4 @@ module.exports = {
     'no-console': 'error',
     'vue/multi-word-component-names': 'off'
   }
-};
+}
