@@ -23,7 +23,9 @@
     "@rollup/plugin-commonjs": "^23.0.2",
     "@rollup/plugin-node-resolve": "^15.0.1",
     "@tsconfig/node18": "^1.0.1",
+    "@types/jsonwebtoken": "^9.0.5",
     "@types/koa": "^2.13.5",
+    "@types/koa-bodyparser": "^4.3.12",
     "@types/less": "^3.0.3",
     "@types/node": "^18.11.5",
     "@vitejs/plugin-vue": "^3.1.2",
@@ -63,7 +65,10 @@
     "webpack": "^5.75.0"
   },
   "dependencies": {
+    "@types/md5": "^2.3.5",
+    "@types/uuid": "^9.0.7",
     "dotenv": "^16.3.1",
+    "md5": "^2.3.0",
     "mysql": "^2.18.1",
     "vue-router": "4"
   }
