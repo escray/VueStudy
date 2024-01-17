@@ -1,5 +1,5 @@
 export interface MyAPIResult {
-  data: unknown
+  data: any
   success: boolean
   message: string
 }

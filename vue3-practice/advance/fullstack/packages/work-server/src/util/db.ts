@@ -37,7 +37,7 @@ function toHumpName(name: string): string {
   })
 }
 
-export function transformModalData<T>(data: any): T {
+export function tranformModalData<T>(data: any): T {
   const result: any = {} as T
   if (data) {
     Object.keys(data).forEach((key) => {

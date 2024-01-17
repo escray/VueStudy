@@ -13,7 +13,7 @@ export async function queryAccount(params: {
   const result: MyAPIResult = {
     data: null,
     success: false,
-    message: 'Sign In Failed'
+    message: '登录失败'
   }
   const { username, password } = params
   if (username && password) {
@@ -22,14 +22,14 @@ export async function queryAccount(params: {
       password
     })
     result.success = true
-    result.message = 'Sign In Success'
+    result.message = '登录成功'
     result.data = {
       allow: modalData !== null,
       username: modalData?.username,
       uuid: modalData?.uuid
     }
   } else {
-    result.message = 'Sign In Failed, either username or password is wrong'
+    result.message = '登录失败，用户名称或密码错误'
   }
   return result
 }
@@ -42,29 +42,29 @@ export async function registerUser(params: {
   let result: MyAPIResult = {
     data: null,
     success: false,
-    message: 'Sign Up Failed'
+    message: '注册失败'
   }
   if (!username || !password) {
-    result.message = 'sign up infomation missed'
+    result.message = '信息不全'
     return result
   }
 
   try {
     const isExist = await checkUserIsUsernameExist({ username })
     if (isExist === true) {
-      result.message = 'User Name Existed'
+      result.message = '用户名已存在'
       return result
     }
     const createResult = await createUser({ username, password })
     result = {
       data: createResult,
       success: true,
-      message: 'Sign Up Success'
+      message: '注册成功'
     }
-  } catch (err: unknown) {
+  } catch (err: any) {
     // eslint-disable-next-line no-console
     console.log(err)
-    result.message = err?.toString() || 'Something Wrong'
+    result.message = err?.toString() || '出现异常'
   }
   return result
 }

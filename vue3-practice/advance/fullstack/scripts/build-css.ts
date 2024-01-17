@@ -5,7 +5,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import glob from 'fast-glob';
 import less from 'less';
-import { resolvePackagePath, wirteFile } from './util';
+import { resolvePackagePath, writeFile } from './util';
 
 function compileLess(file: string): Promise<string> {
   return new Promise((resolve: Function, reject: Function) => {
@@ -45,7 +45,7 @@ async function build(pkgDirName: string) {
       'css',
       file.replace(/.less$/, '.css')
     );
-    wirteFile(cssPath, cssContent);
+    writeFile(cssPath, cssContent);
   }
 }
 console.log('[CSS] 开始编译Less文件···');

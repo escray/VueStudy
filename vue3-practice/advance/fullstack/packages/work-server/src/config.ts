@@ -8,4 +8,4 @@ export const jwtConfig = {
     /^\/api\/signin/,
     /^\/api\/signup/
   ]
-}
+};

@@ -1,6 +1,6 @@
 import md5 from 'md5'
 import { v4 } from 'uuid'
-import { runSQL, transformModalData } from '../util/db'
+import { runSQL, tranformModalData } from '../util/db'
 
 export interface UserInfo {
   id: number
@@ -19,12 +19,14 @@ export async function findUserByUsernameAndPassword(params: {
 }) {
   const { username, password } = params
   const md5Password = md5(password)
-  const sql = 'SELECT * FROM `user_info` WHERE username = ? and password = ?;'
+  const sql = `
+    SELECT * FROM \`user_info\` WHERE username = ? and password = ?
+  `
   const values = [username, md5Password]
   const results = await runSQL(sql, values)
   let result = null
   if (results && results[0] && results[0]?.id >= 0) {
-    result = transformModalData<UserInfo>(results[0])
+    result = tranformModalData<UserInfo>(results[0])
   }
   return result
 }
@@ -33,7 +35,9 @@ export async function checkUserIsUsernameExist(params: {
   username: string
 }): Promise<boolean> {
   const { username } = params
-  const sql = 'SELECT * FROM `user_info` WHERE username = ?;'
+  const sql = `
+    SELECT * FROM \`user_info\` WHERE username = ?
+  `
   const values = [username]
   const results = await runSQL(sql, values)
   if (results && results.length > 0) {
@@ -46,7 +50,9 @@ export async function createUser(params: {
   username: string
   password: string
 }) {
-  const sql = 'INSERT INTO `user_info` SET ?;'
+  const sql = `
+    INSERT INTO \`user_info\` SET ?
+  `
   const uuid = v4()
   const { password, username } = params
   const values = {

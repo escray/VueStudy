@@ -9,10 +9,10 @@ async function parseOnlineUserData(ctx: Context) {
   let userData = null
   const token = ctx.cookies.get(onlineCookie) || ''
   if (token) {
-    const data: { exp: number; user: unknown } = (jwt.verify(
+    const data: { exp: number; user: any } = (jwt.verify(
       token,
       jwtConfig.secret
-    ) || {}) as { exp: number; user: unknown }
+    ) || {}) as { exp: number; user: any }
     if (data?.exp < Date.now()) {
       userData = data.user
     }

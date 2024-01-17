@@ -15,7 +15,7 @@
   },
   "include": [
     "scripts",
-    "packages/work-server/src/",
+    "packages/work-server-zr/src",
   ],
   "exclude": [
     "node_modules"

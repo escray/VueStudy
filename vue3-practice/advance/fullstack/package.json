@@ -65,11 +65,15 @@
     "webpack": "^5.75.0"
   },
   "dependencies": {
+    "@rollup/plugin-json": "^6.1.0",
     "@types/md5": "^2.3.5",
     "@types/uuid": "^9.0.7",
     "dotenv": "^16.3.1",
+    "jsonwebtoken": "^9.0.2",
+    "koa-bodyparser": "^4.4.1",
     "md5": "^2.3.0",
     "mysql": "^2.18.1",
+    "uuid": "^9.0.1",
     "vue-router": "4"
   }
 }

@@ -8,7 +8,7 @@ import commonjs from '@rollup/plugin-commonjs';
 import esbuild from 'rollup-plugin-esbuild';
 import glob from 'fast-glob';
 import type { OutputOptions } from 'rollup';
-import { resolvePackagePath, wirteFile } from './util';
+import { resolvePackagePath, writeFile } from './util';
 
 const getExternal = async (pkgDirName: string) => {
   const pkgPath = resolvePackagePath(pkgDirName, 'package.json');
@@ -46,7 +46,7 @@ const copyServerFiles = async (pkgDirName: string) => {
     const srcFullPath = resolvePackagePath(pkgDirName, 'src', filePath);
     const distFullPath = resolvePackagePath(pkgDirName, 'dist', filePath);
     const text = fs.readFileSync(srcFullPath, { encoding: 'utf-8' });
-    wirteFile(distFullPath, text);
+    writeFile(distFullPath, text);
   });
 };
 
@@ -79,7 +79,7 @@ const copyFrontFiles = async (pkgDirName: string) => {
       filePath
     );
     const text = fs.readFileSync(srcFullPath, { encoding: 'utf-8' });
-    wirteFile(distFullPath, text);
+    writeFile(distFullPath, text);
   });
 };
 
